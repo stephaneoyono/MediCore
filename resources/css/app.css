@@ -1,11 +1,683 @@
-@import 'tailwindcss';
+@import "@fortawesome/fontawesome-free/css/all.css";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+:root {
+    --medical-primary: #0f766e;
+    --medical-primary-hover: #115e59;
+    --medical-secondary: #14b8a6;
+    --medical-accent: #0ea5a4;
+    --medical-ink: #102033;
+    --medical-background: #f8fafc;
+    --medical-surface: #ffffff;
+    --medical-success: #16a34a;
+    --medical-danger: #dc2626;
+    --medical-warning: #f59e0b;
+    --medical-text-primary: #0f172a;
+    --medical-text-secondary: #475569;
+    --medical-border: #e2e8f0;
+    --medical-ring: rgb(20 184 166 / 0.24);
+    --medical-shadow: 0 18px 45px rgb(15 23 42 / 0.08);
+    --medical-soft-shadow: 0 10px 30px rgb(15 118 110 / 0.1);
+    --medical-elevated-shadow: 0 22px 55px rgb(8 47 73 / 0.12);
+}
+
+@layer base {
+    html {
+        background: var(--medical-background);
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    body {
+        background:
+            linear-gradient(180deg, #ffffff 0%, var(--medical-background) 38%, #eefdfa 100%);
+        color: var(--medical-text-primary);
+        min-height: 100vh;
+    }
+
+    input,
+    select,
+    textarea {
+        border-color: var(--medical-border);
+        background-color: var(--medical-surface);
+        color: var(--medical-text-primary);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: var(--medical-secondary);
+        --tw-ring-color: var(--medical-ring);
+    }
+
+    table {
+        color: var(--medical-text-primary);
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    thead {
+        background-color: #f1f5f9;
+        color: var(--medical-text-secondary);
+    }
+
+    tbody tr:hover {
+        background-color: rgb(20 184 166 / 0.06);
+    }
+}
+
+@layer components {
+    .portal-shell {
+        @apply min-h-screen bg-slate-50 text-slate-950 lg:flex;
+        background:
+            radial-gradient(circle at 78% 6%, rgb(13 148 136 / 0.14), transparent 24rem),
+            radial-gradient(circle at 22% 40%, rgb(14 165 164 / 0.08), transparent 20rem),
+            linear-gradient(180deg, #f9fbfb 0%, #eef7f6 100%);
+    }
+
+    .portal-sidebar,
+    .portal-mobile-drawer {
+        @apply border-r border-white/10 bg-slate-950 p-5 shadow-2xl shadow-slate-950/20;
+        background:
+            linear-gradient(180deg, #102033 0%, #0f4f48 58%, #102033 100%);
+    }
+
+    .portal-sidebar {
+        @apply sticky top-0 h-screen w-[292px] flex-col;
+    }
+
+    .portal-mobile-drawer {
+        @apply fixed inset-y-0 left-0 z-50 w-80 transform transition-transform duration-300;
+    }
+
+    .portal-brand {
+        @apply flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-3;
+    }
+
+    .portal-user-card {
+        @apply mt-5 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/10 p-3;
+    }
+
+    .portal-avatar {
+        @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500 font-black text-white shadow-lg shadow-teal-950/20;
+    }
+
+    .portal-nav-link {
+        @apply flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-bold text-slate-300 transition duration-200 hover:bg-white/10 hover:text-white;
+    }
+
+    .portal-nav-link-active {
+        @apply bg-white text-teal-900 shadow-lg shadow-slate-950/20 hover:bg-white hover:text-teal-900;
+    }
+
+    .portal-logout {
+        @apply mt-5 flex w-full items-center gap-3 rounded-xl border border-red-300/20 bg-red-500/10 px-3 py-3 text-sm font-bold text-red-100 transition hover:bg-red-500 hover:text-white;
+    }
+
+    .portal-main {
+        @apply min-w-0 flex-1 pb-20 lg:pb-0;
+    }
+
+    .portal-topbar {
+        @apply sticky top-0 z-30 flex min-h-20 items-center gap-4 border-b border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm backdrop-blur-xl sm:px-6 lg:px-8;
+    }
+
+    .portal-header-slot h2,
+    .portal-header-slot h1 {
+        @apply text-lg font-black text-slate-950 sm:text-2xl;
+    }
+
+    .portal-header-slot p {
+        @apply mt-1 text-sm font-semibold text-slate-500;
+    }
+
+    .portal-icon-button {
+        @apply inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-800;
+    }
+
+    .portal-content {
+        width: 100%;
+        max-width: 1500px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 1.25rem 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .portal-content {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .portal-content {
+            padding: 2rem;
+        }
+    }
+
+    .portal-bottom-nav {
+        @apply fixed bottom-0 left-0 right-0 z-40 grid grid-cols-6 border-t border-slate-200 bg-white/95 px-2 py-2 shadow-2xl backdrop-blur-xl;
+    }
+
+    .portal-bottom-link {
+        @apply flex flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-xs font-bold text-slate-500;
+    }
+
+    .portal-toast {
+        @apply fixed right-4 top-24 z-50 rounded-xl px-4 py-3 text-sm font-bold text-white shadow-xl;
+    }
+
+    .portal-toast-success {
+        @apply bg-emerald-600;
+    }
+
+    .portal-toast-danger {
+        @apply bg-red-600;
+    }
+
+    .ds-card {
+        @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/5;
+        box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 18px 45px rgb(15 23 42 / 0.05);
+    }
+
+    .ds-card-hover {
+        @apply transition duration-200 hover:-translate-y-0.5 hover:border-teal-200 hover:shadow-xl hover:shadow-teal-900/10;
+    }
+
+    .ds-kpi {
+        @apply rounded-2xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-900/5;
+        box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 18px 45px rgb(15 23 42 / 0.05);
+    }
+
+    .ds-icon {
+        @apply flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal-700;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-xl bg-teal-700 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-800 disabled:cursor-not-allowed disabled:opacity-60;
+    }
+
+    .btn-danger {
+        @apply inline-flex items-center justify-center rounded-xl bg-red-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60;
+    }
+
+    .auth-shell {
+        @apply min-h-screen px-4 py-10 sm:px-6;
+        display: grid;
+        place-items: center;
+        background:
+            radial-gradient(circle at 50% 0%, rgb(20 184 166 / 0.14), transparent 34rem),
+            linear-gradient(180deg, #ffffff 0%, #f8fafc 52%, #effdf9 100%);
+    }
+
+    .auth-card {
+        @apply w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/5 sm:p-8;
+    }
+
+    .auth-card-wide {
+        @apply max-w-2xl;
+    }
+
+    .medical-hero {
+        background-color: #0f172a;
+    }
+
+    .public-medical-shell {
+        background:
+            radial-gradient(circle at 82% 8%, rgb(20 184 166 / 0.13), transparent 28rem),
+            radial-gradient(circle at 16% 34%, rgb(15 118 110 / 0.09), transparent 24rem),
+            linear-gradient(180deg, #ffffff 0%, #f8fafc 52%, #eef7f6 100%);
+    }
+
+    .public-card {
+        @apply rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5;
+    }
+
+    .public-section-eyebrow {
+        @apply inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-black text-teal-800;
+    }
+
+    .public-form-field {
+        @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 disabled:cursor-not-allowed disabled:bg-slate-100;
+    }
+
+    .public-form-label {
+        @apply mb-1 block text-sm font-bold text-slate-700;
+    }
+
+    .public-primary-button {
+        @apply inline-flex items-center justify-center rounded-xl bg-teal-700 px-5 py-3 text-sm font-black text-white shadow-lg shadow-teal-900/20 transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
+    }
+
+    .public-alert {
+        @apply rounded-xl border px-4 py-3 text-sm font-bold shadow-sm;
+    }
+
+    .portal-content > [class~="min-h-screen"],
+    .portal-content > [class~="py-4"],
+    .portal-content > [class~="py-6"],
+    .portal-content > [class~="py-8"],
+    .portal-content > div[class*="bg-gray-50"] {
+        min-height: auto;
+        background: transparent;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .portal-content .max-w-7xl,
+    .portal-content .max-w-6xl {
+        max-width: 1500px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .portal-content header,
+    .portal-content .mb-6,
+    .portal-content .mb-8 {
+        border-color: var(--medical-border);
+    }
+
+    .portal-content h1,
+    .portal-content h2,
+    .portal-content h3 {
+        letter-spacing: 0;
+    }
+
+    .portal-content h1 {
+        color: var(--medical-text-primary);
+        font-weight: 900;
+    }
+
+    .portal-content [class~="bg-white"][class~="rounded-2xl"],
+    .portal-content [class~="bg-white"][class~="overflow-hidden"],
+    .portal-content div[class*="bg-white"][class*="rounded-2xl"] {
+        border: 1px solid var(--medical-border);
+        box-shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 18px 45px rgb(15 23 42 / 0.05);
+    }
+
+    .portal-content [class~="bg-white"][class~="rounded-2xl"]:hover {
+        box-shadow: 0 18px 48px rgb(15 118 110 / 0.08);
+    }
+
+    .portal-content .bg-gray-50,
+    .portal-content .bg-gray-50\/50,
+    .portal-content .bg-slate-50 {
+        background-color: #f8fafc;
+    }
+
+    .portal-content .bg-indigo-50,
+    .portal-content .bg-blue-50,
+    .portal-content .bg-cyan-50 {
+        background-color: rgb(20 184 166 / 0.1);
+    }
+
+    .portal-content .text-indigo-600,
+    .portal-content .text-indigo-700,
+    .portal-content .text-blue-600,
+    .portal-content .text-blue-700,
+    .portal-content .text-cyan-700 {
+        color: var(--medical-primary);
+    }
+
+    .portal-content .bg-indigo-600,
+    .portal-content .bg-blue-600 {
+        background-color: var(--medical-primary);
+    }
+
+    .portal-content .hover\:bg-indigo-700:hover,
+    .portal-content .hover\:bg-blue-700:hover,
+    .portal-content .hover\:bg-blue-800:hover {
+        background-color: var(--medical-primary-hover);
+    }
+
+    .portal-content .focus\:ring-indigo-500:focus,
+    .portal-content .focus\:ring-blue-500:focus,
+    .portal-content .focus\:ring-blue-200:focus,
+    .portal-content .focus\:ring-indigo-500:focus {
+        --tw-ring-color: var(--medical-ring);
+    }
+
+    .portal-content .focus\:border-indigo-500:focus,
+    .portal-content .focus\:border-blue-500:focus {
+        border-color: var(--medical-secondary);
+    }
+
+    .portal-content .border-black-300 {
+        border-color: var(--medical-border);
+    }
+
+    .portal-content [class~="rounded-lg"] {
+        border-radius: 0.75rem;
+    }
+
+    .portal-content [class~="rounded-2xl"] {
+        border-radius: 0.9rem;
+    }
+
+    .portal-content button,
+    .portal-content a {
+        text-underline-offset: 3px;
+    }
+
+    .portal-content button[class*="bg-blue-600"],
+    .portal-content button[class*="bg-indigo-600"],
+    .portal-content a[class*="bg-blue-600"],
+    .portal-content a[class*="bg-indigo-600"],
+    .portal-content button[class*="bg-green-500"],
+    .portal-content a[class*="bg-green-500"] {
+        background-color: var(--medical-primary);
+        color: #fff;
+        font-weight: 800;
+        box-shadow: 0 12px 24px rgb(15 118 110 / 0.18);
+    }
+
+    .portal-content button[class*="border"],
+    .portal-content a[class*="border"] {
+        border-color: var(--medical-border);
+    }
+
+    .portal-content .ring-indigo-600\/20,
+    .portal-content .ring-blue-600\/20,
+    .portal-content .ring-cyan-600\/20 {
+        --tw-ring-color: rgb(15 118 110 / 0.22);
+    }
+
+    .bg-white,
+    .bg-white\/70,
+    .bg-white\/80,
+    .bg-white\/95 {
+        background-color: rgb(255 255 255 / 0.94);
+    }
+
+    .from-slate-50,
+    .from-blue-50,
+    .from-blue-100,
+    .from-sky-50 {
+        --tw-gradient-from: var(--medical-background) var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(248 250 252 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+    }
+
+    .to-blue-50\/30,
+    .to-purple-50,
+    .to-yellow-100,
+    .to-slate-50 {
+        --tw-gradient-to: #ecfeff var(--tw-gradient-to-position);
+    }
+
+    .from-blue-600,
+    .from-blue-500,
+    .from-sky-600,
+    .from-indigo-500,
+    .from-green-600,
+    .from-purple-500 {
+        --tw-gradient-from: var(--medical-primary) var(--tw-gradient-from-position);
+        --tw-gradient-to: rgb(15 118 110 / 0) var(--tw-gradient-to-position);
+        --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+    }
+
+    .to-cyan-500,
+    .to-purple-600,
+    .to-emerald-500,
+    .to-teal-500,
+    .to-blue-700,
+    .via-fuchsia-500 {
+        --tw-gradient-to: var(--medical-secondary) var(--tw-gradient-to-position);
+    }
+
+    .bg-blue-500,
+    .bg-blue-600,
+    .bg-sky-600,
+    .bg-indigo-500,
+    .bg-purple-500,
+    .bg-teal-500,
+    .bg-green-500 {
+        background-color: var(--medical-primary);
+    }
+
+    .bg-blue-100,
+    .bg-purple-100,
+    .bg-indigo-100,
+    .bg-green-100,
+    .bg-teal-100 {
+        background-color: rgb(20 184 166 / 0.12);
+    }
+
+    .hover\:bg-blue-600:hover,
+    .hover\:bg-blue-700:hover,
+    .hover\:bg-purple-500:hover,
+    .hover\:bg-indigo-500:hover,
+    .hover\:bg-green-500:hover,
+    .hover\:bg-teal-500:hover,
+    .hover\:bg-sky-200:hover,
+    .hover\:bg-slate-50:hover {
+        background-color: var(--medical-primary-hover);
+    }
+
+    .text-blue-600,
+    .text-blue-700,
+    .text-sky-600,
+    .text-indigo-600,
+    .text-purple-600,
+    .text-green-600,
+    .text-teal-600,
+    .text-cyan-600 {
+        color: var(--medical-primary);
+    }
+
+    .hover\:text-blue-600:hover,
+    .hover\:text-sky-600:hover,
+    .hover\:text-teal-700:hover,
+    .hover\:text-green-500:hover,
+    .hover\:text-blue-500:hover {
+        color: var(--medical-primary-hover);
+    }
+
+    .border-gray-100,
+    .border-gray-200,
+    .border-gray-300,
+    .border-blue-100,
+    .border-blue-200,
+    .border-green-600,
+    .border-blue-600,
+    .border-white\/80,
+    .border-white\/20,
+    .border-emerald-100,
+    .border-emerald-200 {
+        border-color: var(--medical-border);
+    }
+
+    .bg-blue-50,
+    .bg-sky-50,
+    .bg-sky-100,
+    .bg-sky-200,
+    .bg-slate-50 {
+        background-color: #f8fafc;
+    }
+
+    .text-gray-800,
+    .text-gray-900,
+    .text-slate-800,
+    .text-slate-900 {
+        color: var(--medical-text-primary);
+    }
+
+    .text-gray-500,
+    .text-gray-600,
+    .text-slate-500,
+    .text-slate-600 {
+        color: var(--medical-text-secondary);
+    }
+
+    .shadow-sm,
+    .shadow-lg,
+    .shadow-xl,
+    .shadow-2xl,
+    .shadow-md {
+        --tw-shadow-color: rgb(15 23 42 / 0.1);
+    }
+
+    .rounded-3xl,
+    .rounded-2xl {
+        border-radius: 0.875rem;
+    }
+
+    .rounded-xl {
+        border-radius: 0.75rem;
+    }
+
+    .hover\:-translate-y-2:hover,
+    .hover\:scale-105:hover {
+        transform: translateY(-1px);
+    }
+
+    .uppercase {
+        letter-spacing: 0;
+    }
+
+    table th {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0;
+    }
+
+    table td,
+    table th {
+        border-color: var(--medical-border);
+    }
+
+    .bg-red-500,
+    .bg-red-600 {
+        background-color: var(--medical-danger);
+    }
+
+    .text-red-500,
+    .text-red-600 {
+        color: var(--medical-danger);
+    }
+
+    .bg-yellow-400,
+    .bg-yellow-500 {
+        background-color: var(--medical-warning);
+    }
+
+    .portal-content table {
+        @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm;
+        box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+    }
+
+    .portal-content thead {
+        @apply bg-slate-100;
+    }
+
+    .portal-content th {
+        @apply px-4 py-3 text-left text-xs font-black uppercase text-slate-500;
+        background: #f8fafc;
+    }
+
+    .portal-content td {
+        @apply border-t border-slate-100 px-4 py-4 text-sm font-medium text-slate-700;
+    }
+
+    .portal-content tbody tr {
+        @apply transition hover:bg-teal-50/50;
+    }
+
+    .portal-content .divide-gray-200 > :not([hidden]) ~ :not([hidden]),
+    .portal-content .border-gray-200,
+    .portal-content .border-gray-100 {
+        border-color: var(--medical-border);
+    }
+
+    .portal-content input[type="search"],
+    .portal-content input[type="date"],
+    .portal-content input[type="email"],
+    .portal-content input[type="password"],
+    .portal-content input[type="text"],
+    .portal-content input[type="number"],
+    .portal-content select,
+    .portal-content textarea {
+        min-height: 2.6rem;
+    }
+
+    .portal-content input,
+    .portal-content select,
+    .portal-content textarea {
+        @apply rounded-xl border-slate-200 bg-white text-sm font-semibold text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20;
+    }
+
+    .portal-content label {
+        @apply text-sm font-bold text-slate-700;
+    }
+
+    .portal-content .fixed [class~="bg-white"],
+    .portal-content [role="dialog"],
+    body > div [role="dialog"] {
+        border-radius: 0.9rem;
+    }
+
+    .portal-content [class~="uppercase"],
+    .portal-content [class*="tracking-wider"] {
+        letter-spacing: 0;
+    }
+
+    .portal-content [class~="text-gray-900"],
+    .portal-content [class~="text-slate-900"] {
+        color: var(--medical-text-primary);
+    }
+
+    .portal-content [class~="text-gray-600"],
+    .portal-content [class~="text-gray-500"] {
+        color: var(--medical-text-secondary);
+    }
+
+    .portal-content [class~="bg-purple-50"],
+    .portal-content [class~="bg-purple-100"],
+    .portal-content [class~="bg-indigo-100"] {
+        background-color: rgb(14 165 164 / 0.1);
+    }
+
+    .portal-content [class~="text-purple-600"] {
+        color: var(--medical-accent);
+    }
+
+    .portal-content [class~="bg-red-300"] {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .portal-content .hover\:bg-gray-50:hover {
+        background-color: #f0fdfa;
+    }
+
+    .portal-content [class~="shadow-md"],
+    .portal-content [class~="shadow-lg"],
+    .portal-content [class~="shadow-xl"] {
+        --tw-shadow-color: rgb(15 23 42 / 0.12);
+    }
+
+    .portal-content .overflow-x-auto {
+        scrollbar-color: rgb(15 118 110 / 0.35) transparent;
+    }
+
+    .portal-content .overflow-x-auto::-webkit-scrollbar {
+        height: 0.55rem;
+    }
+
+    .portal-content .overflow-x-auto::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: rgb(15 118 110 / 0.28);
+    }
+
+    .portal-content [class~="bg-white"] {
+        border-color: var(--medical-border);
+    }
 }

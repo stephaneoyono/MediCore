@@ -1,12 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\Auth;
+use App\Http\Controllers\Api\EmailCheckController;
+use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\UserController;
 
-Route::post('/register', [Auth::class, 'register']);
-Route::post('/login', [Auth::class, 'login']);
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [Auth::class, 'user']);
-    Route::post('/logout', [Auth::class, 'logout']);
-});
+Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'show']);
+
+Route::post('/email-check', [EmailCheckController::class, 'check']);
+
+Route::get('/doctors', [DoctorController::class, 'index']);

@@ -3,21 +3,44 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MedicalRecord;
+use App\Models\Prescription;
 
 class Appointment extends Model
 {
+    protected $fillable = [
+        'booking_id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'gender',
+        'age',
+        'preferred_date',
+        'preferred_time',
+        'speciality',
+        'doctor_id',
+        'additional_notes',
+        'status',
+    ];
+
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
     }
 
-    public function patient()
+    public function getDoctorNameAttribute()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->doctor ? $this->doctor->user->name : null;
     }
 
-    public function payment()
+    public function prescriptions()
     {
-        return $this->belongsTo(Payment::class);
+        return $this->hasMany(Prescription::class);
+    }
+
+    public function medicalRecords()
+    {
+        return $this->hasMany(MedicalRecord::class);
     }
 }
